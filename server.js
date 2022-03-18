@@ -17,12 +17,14 @@ const pool = new Pool({
 const schema = buildSchema(`
   # A book has a title and an author
   type Article {
+    id: Int
     title: String
     content: String
     account: Account
   }
 
   type Account {
+    id: Int
     username: String
     articles: [Article]
   }
