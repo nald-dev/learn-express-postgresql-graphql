@@ -5,7 +5,7 @@ const { buildSchema } = require('graphql')
 const { Pool } = require('pg')
 
 const pool = new Pool({
-  user: "envision",
+  user: "nova",
   host: "localhost",
   database: "postgres",
   password: "",
