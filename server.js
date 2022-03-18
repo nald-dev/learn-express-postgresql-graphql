@@ -5,7 +5,7 @@ const { buildSchema } = require('graphql')
 const { Pool } = require('pg')
 
 const pool = new Pool({
-  user: "nova",
+  user: "envision",
   host: "localhost",
   database: "postgres",
   password: "",
@@ -32,6 +32,7 @@ const schema = buildSchema(`
   type Query {
     accounts: [Account]
     articles: [Article]
+    getAccount(id: Int!): Account
   }
 `)
 
@@ -62,6 +63,20 @@ const root = {
     }))
 
     return accounts
+  },
+  getAccount: id => {
+    let { rows: accountsSource } = (await pool.query(`SELECT id, username FROM accounts WHERE id = ${id}`))
+
+    const account = {
+      ...accountsSource[0],
+      articles: async() => {
+        const articles = await root.articles()
+
+        return articles.filter(article => article.account_id === accountsSource[0].id)
+      }
+    }
+
+    return account
   }
 }
 
