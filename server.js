@@ -64,7 +64,7 @@ const root = {
 
     return accounts
   },
-  getAccount: id => {
+  getAccount: async({ id }) => {
     let { rows: accountsSource } = (await pool.query(`SELECT id, username FROM accounts WHERE id = ${id}`))
 
     const account = {
